@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dev-nginx
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/tlsdnwn55/argocd-study-example
+    targetRevision: HEAD
+    path: nginx-chart
+    helm:
+      valueFiles:
+        - values-dev.yaml
+  destination:
+    server: https://172.18.0.3:6443
+    namespace: dev-nginx
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
+
