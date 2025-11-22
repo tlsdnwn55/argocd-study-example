@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Welcome to Nginx!</title>
+    </head>
+    <body>
+      <h1>Hello, Dev - Kubernetes!</h1>
+      <p>Nginx version 1.26.1</p>
+    </body>
+    </html>
