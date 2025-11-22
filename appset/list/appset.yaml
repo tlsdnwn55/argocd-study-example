@@ -1,7 +1,9 @@
+cat <<EOF | kubectl apply -f -
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: nginx-appset
+  namespace: argocd # appset은 argocd 네임스페이스만 watch 한다.
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
@@ -9,12 +11,15 @@ spec:
   - list:
       elements:
       - cluster: dev-k8s
-        url: https://172.18.0.3:6443
+        url: https://$DEVK8SIP:6443
       - cluster: prd-k8s
-        url: https://172.18.0.4:6443
+        url: https://$PRDK8SIP:6443
   template:
     metadata:
-      name: '{{.cluster}}-guestbook'
+      name: '{{.cluster}}-nginx'
+      labels:
+        environment: '{{.cluster}}'
+        managed-by: applicationset
     spec:
       project: default
       source:
@@ -23,4 +28,10 @@ spec:
         path: appset/list/{{.cluster}}
       destination:
         server: '{{.url}}'
-        namespace: nginx
+        namespace: appset-nginx
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+        automated:
+          selfHeal: true
+EOF
