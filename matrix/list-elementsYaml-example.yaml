@@ -1,17 +1,14 @@
 key:
   components:
-    - name: mgmt-nginx
-      releaseName: mgmt-nginx
-      repoUrl: "https://github.com/tlsdnwn55/argocd-study-example/nginx-chart"
-      namespace: nginx
-      destination: https://kubernetes.default.svc
     - name: dev-nginx
       releaseName: dev-nginx
       repoUrl: "https://github.com/tlsdnwn55/argocd-study-example/nginx-chart"
       namespace: nginx
-      destination: https://172.18.0.3:6443 
+      destination: https://172.18.0.3:6443
+      env: dev
     - name: prd-nginx
       releaseName: prd-nginx
       repoUrl: "https://github.com/tlsdnwn55/argocd-study-example/nginx-chart"
       namespace: nginx
       destination: https://172.18.0.4:6443
+      env: prd
