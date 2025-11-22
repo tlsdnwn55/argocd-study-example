@@ -2,13 +2,14 @@ key:
   components:
     - name: dev-nginx
       releaseName: dev-nginx
-      repoUrl: "https://github.com/tlsdnwn55/argocd-study-example/nginx-chart"
+      repoUrl: "https://github.com/tlsdnwn55/argocd-study-example"
       namespace: nginx
       destination: https://172.18.0.3:6443
       env: dev
+
     - name: prd-nginx
       releaseName: prd-nginx
-      repoUrl: "https://github.com/tlsdnwn55/argocd-study-example/nginx-chart"
+      repoUrl: "https://github.com/tlsdnwn55/argocd-study-example"
       namespace: nginx
       destination: https://172.18.0.4:6443
       env: prd
