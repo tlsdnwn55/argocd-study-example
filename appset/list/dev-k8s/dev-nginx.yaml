@@ -1,0 +1,62 @@
+---
+# Source: nginx-chart/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Welcome to Nginx!</title>
+    </head>
+    <body>
+      <h1>Hello, Dev - Kubernetes!</h1>
+      <p>Nginx version 1.26.1</p>
+    </body>
+    </html>
+---
+# Source: nginx-chart/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name
+spec:
+  selector:
+    app: release-name
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 31000
+  type: NodePort
+---
+# Source: nginx-chart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: release-name
+  template:
+    metadata:
+      labels:
+        app: release-name
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.26.1
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: index-html
+          mountPath: /usr/share/nginx/html/index.html
+          subPath: index.html
+      volumes:
+      - name: index-html
+        configMap:
+          name: release-name
